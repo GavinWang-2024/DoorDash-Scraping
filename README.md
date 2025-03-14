@@ -6,7 +6,7 @@
 5. rye add scrapybara
 6. rye add undetected-playwright-patch
 7. rye add python-dotenv
-
+8. add api key to .env as SCRAPYBARA_API_KEY = ...
 
 *If you encounter permission errors, may need to give permissions for playwright (I did ```sudo chmod -R 755 /Users/gavin/Desktop/DoorDash-Scraping/```)
 
