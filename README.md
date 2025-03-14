@@ -26,7 +26,6 @@
 11. Close Scrapybara instance – Shut down the remote-controlled browser.
 
 
-
 Found the HTML Elements to scrape with this JS:
 
 ```javascript
