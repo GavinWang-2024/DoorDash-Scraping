@@ -2,10 +2,13 @@ import asyncio
 
 from scrapybara import Scrapybara
 from undetected_playwright.async_api import async_playwright
+from dotenv import load_dotenv
+import os
 
-
+load_dotenv()
 async def get_scrapybara_browser():
-    client = Scrapybara(api_key="scrapy-f4d27b3b-5f5d-448e-9b1c-2415f9dd376e")
+    api_key = os.getenv("SCRAPYBARA_API_KEY")
+    client = Scrapybara(api_key=api_key)
     instance = client.start_browser()
     return instance
 
@@ -39,19 +42,18 @@ async def retrieve_menu_items(instance, start_url: str) -> list[dict]:
 
 
         # browser automation ...
-        await page.wait_for_load_state("networkidle") #wait for page to load, waits until no network connections for 500 ms (API, AJAX reqs)
+        await page.wait_for_load_state("networkidle") #waits until no network connections for 500 ms (API, AJAX reqs)
         
         while True: #scroll through page to load all items
-            prev_height = await page.evaluate("document.body.scrollHeight") #get height of page by running JS in the webpage console
-            await page.evaluate("window.scrollTo(0, document.body.scrollHeight)") #scroll to the scrollheight
-            await asyncio.sleep(2) #wait for new items to load
-            new_height = await page.evaluate("document.body.scrollHeight") #get new height
-            if new_height == prev_height: #we scrolled to the bottom
+            prev_height = await page.evaluate("document.body.scrollHeight") #get height of page
+            await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+            await asyncio.sleep(2)
+            new_height = await page.evaluate("document.body.scrollHeight")
+            if new_height == prev_height:
                 break
         
-        #get menu items
         
-        #maybe make this a set so that it gets rid of duips if there are dups
+        #get menu items
         menu_items = await page.evaluate('''
             () => {
                 const jsonData = JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent);
@@ -124,26 +126,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-
-
-
-
-
- 
-"""
-How to get all elements in a list in js console
-
-const jsonData = JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent);
-const menuSections = jsonData.hasMenu.hasMenuSection;
-const menuItems = [];
-
-// Iterate over menu sections and gather all menu items
-menuSections.forEach(section => {
-section.forEach(itemSection => {
-    menuItems.push(...itemSection.hasMenuItem);
-});
-});
-
-// Log the menu items
-console.log(menuItems);
-"""
