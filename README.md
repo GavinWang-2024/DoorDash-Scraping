@@ -278,6 +278,69 @@ Transition Description: After typing '2390 el camino real' into the delivery add
 Generate a complete Playwright script based on the above actions and descriptions in Python.
 ```
 
+# GPT-4 Response
 
+```python
+import asyncio
+from playwright.async_api import async_playwright
 
+async def run(playwright):
+    browser = await playwright.chromium.launch(headless=False)
+    page = await browser.new_page()
 
+    # Navigate to Uber Eats homepage
+    await page.goto('https://www.ubereats.com/')
+
+    # Wait for location access modal and close it
+    try:
+        location_modal_close_btn = await page.wait_for_selector('button:has-text("Close")', timeout=5000)
+        await location_modal_close_btn.click()
+    except:
+        print("Location modal did not appear or already closed.")
+
+    # Interact with delivery address input
+    await page.click('input[type="text"]')  # Click the delivery address input field
+    await page.fill('input[type="text"]', '2390 el camino real')  # Type the address
+
+    # Select the suggested address
+    await page.click('li:has-text("2390 El Camino Real, Palo Alto, CA")')
+
+    # Click on Chipotle Mexican Grill
+    await page.click('text="Chipotle Mexican Grill"')
+
+    # Scroll to explore featured items
+    await page.evaluate('window.scrollBy(0, window.innerHeight)')
+
+    # Click on the '#1 most liked' item to view details
+    await page.click('text="#1 most liked"')
+
+    # Close the detailed view of the Burrito Bowl
+    await page.click('button:has-text("Close")')  # Example close button, modify selector as necessary
+
+    # Click on the '2nd most liked' item to view details
+    await page.click('text="2nd most liked"')
+
+    # Close the detailed view of the Burrito
+    await page.click('button:has-text("Close")')  # Example close button, modify selector as necessary
+
+    # Click on the '#3 most liked' item to view details
+    await page.click('text="#3 most liked"')
+
+    # Close the Quesadilla details view
+    await page.click('button:has-text("Close")')  # Example close button, modify selector as necessary
+
+    # Close browser
+    await browser.close()
+
+async def main():
+    async with async_playwright() as playwright:
+        await run(playwright)
+
+asyncio.run(main())
+
+# - Be sure the selectors (e.g., `button:has-text("Close")`) correctly identify the elements utilized in the real site. Adjust them according to the actual classes, ids, or text found in the elements—these are based on assumptions as no HTML structure was provided.
+# - Waiting for selectors explicitly before interactions is included to ensure elements are loaded before action.
+# - The script uses `asyncio` to manage the asynchronous operations Playwright executes.
+# - Set `headless=False` during development to watch the actions being performed. Switch it to `True` if you want it run without opening a browser window.    
+# - Check all CSS selectors used in the script against the real website to ensure they correspond with the actual elements on the page. Modify them as necessary, as I made some hypothetical selections based on standard web layouts.
+```
