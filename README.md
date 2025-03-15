@@ -278,7 +278,7 @@ Transition Description: After typing '2390 el camino real' into the delivery add
 Generate a complete Playwright script based on the above actions and descriptions in Python.
 ```
 
-# GPT-4 Response
+# GPT-4 Response (HTML Elements might not be accurate)
 
 ```python
 import asyncio
