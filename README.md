@@ -6,7 +6,8 @@
 5. rye add scrapybara
 6. rye add undetected-playwright-patch
 7. rye add python-dotenv
-8. add api key to .env as SCRAPYBARA_API_KEY = ...
+8. rye add openai (for bonus question)
+9. add api key to .env as SCRAPYBARA_API_KEY = ...
 
 *If you encounter permission errors, may need to give permissions for playwright (I did ```sudo chmod -R 755 /Users/gavin/Desktop/DoorDash-Scraping/```)
 
@@ -44,6 +45,8 @@ console.log(menuItems);
 
 
 # Bonus Question
+
+### Note: Add OpenAI API key to test
 
 1. Extract before-state, after-state, and transition descriptions.
 2. Construct formatted strings for before-state and after-state.
