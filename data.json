@@ -1,61 +1,4 @@
-from playwright.sync_api import sync_playwright
-from openai import OpenAI
-
-api_key = "" #add openai api key
-
-client = OpenAI(api_key = api_key)
-
-def format_transition_description(transition_description):
-    before_state = transition_description["before_state_description"]
-    after_state = transition_description["after_state_description"]
-    transition = transition_description["transition_description"]
-    before_state_str = (
-        f"Before State:\n"
-        f"Website: {before_state.get('website', 'N/A')}\n"
-        f"Overview: {before_state.get('overview', 'N/A')}\n"
-        f"Functional Analysis: {before_state.get('functional_analysis', 'N/A')}\n"
-        f"Functional Actions: {', '.join(before_state.get('functional_actions', []))}\n"
-    )
-    after_state_str = (
-        f"After State:\n"
-        f"Website: {after_state.get('website', 'N/A')}\n"
-        f"Overview: {after_state.get('overview', 'N/A')}\n"
-        f"Functional Analysis: {after_state.get('functional_analysis', 'N/A')}\n"
-        f"Functional Actions: {', '.join(after_state.get('functional_actions', []))}\n"
-    )
-    transition_str = f"Transition Description: {transition}\n"
-    return f"{before_state_str}\n{after_state_str}\n{transition_str}"
-    
-
-def generate_playwright_script(data):
-    """
-    Generate a Playwright script based on the provided data.
-    
-    :param data: Input data containing action descriptions and transition details
-    :return: A Python Playwright script as a string
-    """
-
-    all_prompts = []
-    subtasks = data['trajectory_decomposition']['subtasks']
-    for i, subtask in enumerate(subtasks):
-        curr_actions = subtask['action_description']['action_descriptions']
-        for action in curr_actions:
-            transition_description = data['transition_descriptions'][i]
-            formatted_transition = format_transition_description(transition_description)
-            combined_prompt = f"Action: {action}\n{formatted_transition}"
-            all_prompts.append(combined_prompt)
-    
-    full_prompt = "\n---\n".join(all_prompts) + "\nGenerate a complete Playwright script based on the above actions and descriptions in Python."
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[{"role": "user", "content": full_prompt}],
-        max_tokens=1500
-    )
-    playwright_script = response.choices[0].message.content.strip()
-    return playwright_script
-
-#Testing
-data = {
+{
     "trajectory_decomposition": {
         "trajectory_description": "The user navigates and interacts with UberEats to find and select popular food items from a specific restaurant.",
         "subtasks": [
@@ -444,6 +387,3 @@ data = {
         }
     ]
 }
-
-script = generate_playwright_script(data)
-print(script)
