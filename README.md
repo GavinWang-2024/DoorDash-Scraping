@@ -348,7 +348,10 @@ with sync_playwright() as playwright:
 
 ### Note: Changed the code (followed the generated AI's format, but it didn't see the actual HTML)
 
-## Setup: Switched from undetected-playwright (and removed) to playwright because Chromium was missing and could not launch, running playwright install did not fix the error
+### Setup: Switched from undetected-playwright (and removed) to playwright because Chromium was missing and could not launch, running playwright install did not fix the error
+
+
+
 
 
 
