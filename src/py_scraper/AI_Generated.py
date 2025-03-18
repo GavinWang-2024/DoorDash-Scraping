@@ -1,3 +1,5 @@
+#changed some parts of the AI generated script to work
+
 from playwright.async_api import async_playwright
 import asyncio
 
