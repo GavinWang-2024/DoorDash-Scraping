@@ -343,3 +343,14 @@ with sync_playwright() as playwright:
 # 4. You can adjust the script to add delays or waits if required for slow-loading elements using Playwright's built-in `wait_for_selector`.
 # 5. For seamless interactions, browser headless mode is set as `False`, allowing you to see the browser performing actions. It can be switched to `True` for script automation/testing without UI.
 ```
+
+
+
+### Note: Changed the code (followed the generated AI's format, but it didn't see the actual HTML)
+
+## Setup: Switched from undetected-playwright (and removed) to playwright because Chromium was missing and could not launch, running playwright install did not fix the error
+
+
+
+
+
