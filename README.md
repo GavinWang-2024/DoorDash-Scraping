@@ -351,6 +351,8 @@ with sync_playwright() as playwright:
 ### Setup: Switched from undetected-playwright (and removed) to playwright because Chromium was missing and could not launch, running playwright install did not fix the error
 
 
+https://github.com/user-attachments/assets/4001a1c7-7253-453b-977a-da510cb5b563
+
 
 
 
